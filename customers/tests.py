@@ -6,10 +6,23 @@ from customers.models import Customer
 
 
 class CustomerCreateApiTests(APITestCase):
+    """
+    Test di integrazione API per la creazione di un cliente.
+    Verifica correttezza dei dati, rifiuto campi obbligatori mancanti,
+    rifiuto email sintatticamente errate e rifiuto duplicati case-insensitive.
+    """
+
     def setUp(self):
         self.url = reverse("customer-create")
 
     def test_creates_customer_with_valid_data(self):
+        """
+        Verifica creazione cliente con dati validi:
+        - HTTP 201 Created
+        - Record creato su database MySQL
+        - Normalizzazione email in minuscolo
+        - Restituzione dell'ID generato
+        """
         response = self.client.post(
             self.url,
             {
@@ -26,6 +39,10 @@ class CustomerCreateApiTests(APITestCase):
         self.assertIn("id", response.data)
 
     def test_rejects_missing_email(self):
+        """
+        Verifica che l'omissione dell'email venga bloccata con HTTP 400
+        e messaggio di errore in italiano.
+        """
         response = self.client.post(
             self.url,
             {"first_name": "Mario", "last_name": "Rossi"},
@@ -37,6 +54,10 @@ class CustomerCreateApiTests(APITestCase):
         self.assertEqual(response.data["email"][0], "L'email è obbligatoria.")
 
     def test_rejects_duplicate_email_ignoring_case(self):
+        """
+        Verifica che una seconda registrazione con la medesima email (anche con maiuscole diverse)
+        venga respinta con HTTP 400 e messaggio specifico.
+        """
         Customer.objects.create(
             first_name="Mario",
             last_name="Rossi",
@@ -61,6 +82,9 @@ class CustomerCreateApiTests(APITestCase):
         )
 
     def test_rejects_invalid_email(self):
+        """
+        Verifica che un indirizzo email malformato venga respinto con HTTP 400.
+        """
         response = self.client.post(
             self.url,
             {
