@@ -45,3 +45,24 @@ Ho integrato un server MCP costruito appositamente per analizzare l'AST (Abstrac
 
 ### 10. Tracciabilità e controllo di versione su Git
 Ogni fetta di lavoro viene verificata, isolata e fissata con commit atomici e descrittivi su Git, garantendo una cronologia trasparente, reversibile e pronta per il repository remoto.
+
+---
+
+## Come Lavorerei sulla Vostra Codebase Aziendale dal Giorno 1
+
+Se domani dovessi iniziare a lavorare sui progetti interni di Debitoo Group, il mio comportamento operativo seguirebbe questo protocollo a danno zero:
+
+1. **Isolamento preventivo (Branch dedicato / Fork):**
+   Non si tocca mai direttamente il branch principale o di staging. Ogni ticket viene sviluppato su un branch isolato (`feature/ticket-xyz`), garantendo che l'ambiente stabile del team non venga mai compromesso.
+
+2. **Mappatura preventiva prima di toccare il codice:**
+   Prima di modificare una riga, uso gli strumenti di analisi del grafo e dell'AST per capire chi chiama quel metodo, quali tabelle del database sono coinvolte e quali dipendenze esistono. Muoversi al buio in una codebase sconosciuta è la prima causa di bug collaterali.
+
+3. **Contenimento del raggio di danno (Blast Radius minimo):**
+   L'intervento viene confinato strettamente al singolo componente oggetto del ticket. Niente refactoring selvaggi fuori perimetro, niente modifiche a file contigui "perché scritti male", e massimo rigore nel circoscrivere il raggio d'impatto della patch.
+
+4. **Verifica e test locali prima di coinvolgere il team:**
+   La modifica viene scritta, collaudata ed eseguita nei container locali con i relativi test di regressione. Non porto all'attenzione del team codice che non abbia già superato la verifica automatica in locale.
+
+5. **Pull Request chiara e diff leggibile per la review del senior:**
+   Consegno il lavoro con una richiesta di merge (Pull Request) corredata da una spiegazione sintetica: cosa cambia, perché, quali test sono stati eseguiti e quale comportamento è stato verificato. In questo modo chi ha più esperienza può fare la review in pochi minuti su un diff pulito, senza dover perdere tempo a decifrare il codice.
