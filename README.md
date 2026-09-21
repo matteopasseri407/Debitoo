@@ -173,7 +173,7 @@ Sto continuando a studiare il repository in preparazione alla presentazione tecn
 | `humanizer` | Revisione della documentazione senza modificare il contenuto tecnico. |
 | NotebookLM con Gemini | Studio del repository e dei concetti Django dopo l'implementazione. |
 
-Gran parte dell'implementazione tecnica è stata prodotta con assistenza AI.
+l'implementazione tecnica è stata prodotta con assistenza AI.
 Le logiche di business e le scelte implementative sono state discusse con i modelli e poi verificate eseguendo codice e test su MySQL.
 NeXgen Engine è la cassetta degli attrezzi che ho costruito per rendere ripetibili review e analisi della codebase.
 Terminata la prima versione, ho già preparato un notebook di studio in NotebookLM con Gemini per ripercorrere il progetto dal routing HTTP all'ORM e a MySQL.
