@@ -1,0 +1,11 @@
+[project]
+name = "debitoo-api"
+version = "0.1.0"
+description = "API REST per la prova pratica Junior Backend Developer di Debitoo Group"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "Django>=5.2,<6.0",
+    "djangorestframework>=3.16,<4.0",
+    "PyMySQL>=1.1,<2.0",
+]
