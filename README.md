@@ -375,6 +375,9 @@ Il supporto AI ha riguardato:
 - scrittura e revisione dei test, compresi i casi limite;
 - revisione del codice, messaggi di errore e documentazione tecnica.
 
+Per lo stress-test del piano ho usato **AI Council**, una funzione di **NeXgen Engine** che consulta altri modelli tramite le rispettive CLI e li usa come revisori indipendenti.
+Per analizzare la struttura del repository ho usato **`code-intel`**, un tool MCP di NeXgen Engine che legge l'AST, genera la mappa dei simboli e individua le dipendenze tra le parti del codice.
+
 Questa prova è anche un percorso di studio.
 Sto ripercorrendo il repository file per file, dal routing HTTP fino all'ORM e a MySQL, per comprendere, spiegare e manutenere ogni parte del progetto.
 Il comportamento è stato verificato eseguendo l'intera suite di 19 test nei container Docker su MySQL 8.4.

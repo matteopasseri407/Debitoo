@@ -11,8 +11,10 @@ Non si tratta di "vibecoding", ovvero di delegare ciecamente la scrittura del co
 ### 1. Requisiti chiari e piano dettagliato
 Nessuna riga di codice viene scritta finché i requisiti non sono stati sviscerati. Si parte dalla specifica (nel caso di Debitoo, la traccia del colloquio), si estraggono i vincoli non negoziabili e si elabora un piano di implementazione dettagliato diviso in blocchi atomici.
 
-### 2. Stress-test del piano con review incrociata di modelli frontier
-Prima di toccare l'editor, il piano viene sottoposto a stress-test incrociato tra modelli di frontiera diversi (ad esempio Claude, GPT, Gemini). Se un modello evidenzia una falla logica, una vulnerabilità o un'incongruenza nella gestione dei dati, il piano viene corretto prima che l'errore contamini la codebase.
+### 2. Stress-test del piano con AI Council di NeXgen Engine
+Prima di toccare l'editor, uso **AI Council**, una funzione di **NeXgen Engine** che consulta altri modelli tramite le rispettive CLI e li usa come revisori indipendenti.
+In modalità `challenge`, il Council sottopone il piano a una review incrociata e cerca falle logiche, vulnerabilità o incongruenze nella gestione dei dati.
+Se emerge un problema, correggo il piano prima di iniziare l'implementazione.
 
 ### 3. Routing intelligente dei modelli (Frontier per il giudizio, Flash per il bulk)
 Non tutti i compiti richiedono la stessa potenza di calcolo:
@@ -41,7 +43,9 @@ Chi scrive il codice non deve essere chi lo collauda. A implementazione completa
 Nessuna feature è considerata completata senza test automatizzati eseguiti nell'ambiente reale. Invece dei 3 minimi richiesti, sono stati implementati 19 test di integrazione eseguiti su MySQL in Docker che coprono il flusso corretto, gli importi negativi, i valori nulli, i salti di stato, le retrocessioni, l'idempotenza e i payload anomali.
 
 ### 9. Mappatura della codebase con tool MCP dedicato (`code-intel`)
-Ho integrato un server MCP costruito appositamente per analizzare l'AST (Abstract Syntax Tree) del progetto. Questo strumento genera la mappa concettuale dei simboli (`repo_map`), calcola il numero di chiamanti per ogni funzione e ne misura il raggio d'impatto (`find_callers`). Serve sia a me per visualizzare il grafo delle relazioni, sia a futuri agenti AI per orientarsi istantaneamente nel codice senza allucinare percorsi inesistenti.
+`code-intel` è un tool MCP di **NeXgen Engine** costruito per analizzare l'AST (Abstract Syntax Tree) del progetto.
+Genera la mappa dei simboli (`repo_map`), individua chi usa una funzione e ne mostra il raggio d'impatto (`find_callers`).
+Lo uso per leggere le relazioni reali della codebase prima di intervenire e per fornire agli assistenti AI un contesto verificabile.
 
 ### 10. Tracciabilità e controllo di versione su Git
 Ogni fetta di lavoro viene verificata, isolata e fissata con commit atomici e descrittivi su Git, garantendo una cronologia trasparente, reversibile e pronta per il repository remoto.
