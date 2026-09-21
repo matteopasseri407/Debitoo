@@ -329,3 +329,36 @@ class PraticheApiTests(APITestCase):
         response = self.client.post(self.list_create_url, payload, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data["cliente"][0], "Il cliente specificato non esiste.")
+
+    def test_rifiuto_patch_con_payload_vuoto(self):
+        """
+        Verifica che una richiesta PATCH con payload vuoto {} venga respinta con HTTP 400
+        e non provochi un errore interno 500.
+        """
+        pratica = Pratica.objects.create(
+            cliente=self.cliente,
+            descrizione="Pratica test patch vuoto",
+            importo=Decimal("150.00"),
+            stato=StatoPratica.NUOVA,
+        )
+        url = reverse("pratica-detail", kwargs={"pk": pratica.id})
+        response = self.client.patch(url, {}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("stato", response.data)
+        self.assertEqual(response.data["stato"][0], "Il campo 'stato' è obbligatorio.")
+
+    def test_rifiuto_patch_con_campi_estranei_senza_stato(self):
+        """
+        Verifica che inviando campi estranei senza il campo obbligatorio 'stato',
+        la richiesta venga respinta con HTTP 400.
+        """
+        pratica = Pratica.objects.create(
+            cliente=self.cliente,
+            descrizione="Pratica test campi estranei",
+            importo=Decimal("150.00"),
+            stato=StatoPratica.NUOVA,
+        )
+        url = reverse("pratica-detail", kwargs={"pk": pratica.id})
+        response = self.client.patch(url, {"campo_inventato": 123}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("stato", response.data)

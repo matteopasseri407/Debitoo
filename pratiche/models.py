@@ -95,6 +95,19 @@ class Pratica(models.Model):
         verbose_name = "Pratica"
         verbose_name_plural = "Pratiche"
         ordering = ["-creata_il"]
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(importo__gt=Decimal("0.00")),
+                name="pratica_importo_positivo",
+            ),
+        ]
+
+    def clean(self):
+        super().clean()
+        if self.importo is not None and self.importo <= Decimal("0.00"):
+            raise ValidationError(
+                {"importo": "L'importo del debito deve essere maggiore di zero."}
+            )
 
     def __str__(self):
         return f"Pratica #{self.pk} - {self.cliente} [{self.stato}]"

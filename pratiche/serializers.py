@@ -138,6 +138,17 @@ class PraticaStatoUpdateSerializer(serializers.ModelSerializer):
         fields = ["id", "stato"]
         read_only_fields = ["id"]
 
+    def validate(self, attrs):
+        """
+        DRF nelle richieste PATCH attiva partial=True, rendendo i campi opzionali.
+        Per questo endpoint lo 'stato' è l'unico scopo della chiamata: deve essere presente.
+        """
+        if "stato" not in attrs or not attrs["stato"]:
+            raise serializers.ValidationError(
+                {"stato": ["Il campo 'stato' è obbligatorio."]}
+            )
+        return attrs
+
     def validate_stato(self, nuovo_stato):
         """
         Invoca il metodo di business sul modello per validare la transizione di stato.

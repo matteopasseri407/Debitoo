@@ -68,7 +68,7 @@ class PraticaDetailView(RetrieveUpdateAPIView):
     """
 
     queryset = Pratica.objects.select_related("cliente").all()
-    http_method_names = ["get", "patch", "put", "head", "options"]
+    http_method_names = ["get", "patch", "head", "options"]
 
     def get_object(self):
         """

@@ -30,9 +30,9 @@ Il progetto è progettato per essere eseguito interamente in container isolati, 
 - **Docker Compose:** versione v2
 - **Python:** 3.12 (immagine `python:3.12-slim`)
 - **Django:** 5.2 LTS
-- **Django REST Framework (DRF):** 3.16
+- **Django REST Framework (DRF):** 3.18
 - **MySQL:** 8.4 LTS
-- **PyMySQL:** 1.1 (driver MySQL nativo per Python)
+- **PyMySQL:** 1.2
 - **uv:** 0.12 (gestore veloce di dipendenze e lockfile)
 
 ---
@@ -134,17 +134,18 @@ docker compose run --rm api python manage.py test
 ```
 
 ### Copertura dei test:
-La suite include **17 test automatici** che coprono sia i test minimi richiesti dalla traccia sia tutti i casi limite:
+La suite include **19 test automatici** che coprono sia i test minimi richiesti dalla traccia sia tutti i casi limite:
 1. **Creazione corretta di una pratica** (con stato iniziale `nuova`, timestamp automatico, importo a 2 decimali e ID auto-incrementante).
 2. **Rifiuto di pratiche con importo non valido** (valori negativi, importo pari a zero, stringhe non numeriche).
 3. **Rifiuto categorico di riaprire una pratica chiusa** (tentativi verso `in_lavorazione` e verso `nuova`).
 4. **Rifiuto salto di passaggio** (da `nuova` direttamente a `chiusa`).
 5. **Rifiuto retrocessione di stato** (da `in_lavorazione` a `nuova`).
 6. **Verifica idempotenza** (conferma dello stesso stato accettata senza errori).
-7. **Rifiuto cliente inesistente** (Foreign Key non valida intercettata con HTTP 400 e messaggio in italiano).
-8. **Elenco e filtro pratiche per stato** (`?stato=nuova`, `?stato=in_lavorazione`, `?stato=chiusa`).
-9. **Visualizzazione dettaglio e gestione 404** (su identificativi inesistenti).
-10. **Suite clienti** (creazione valida, rifiuto email mancante, rifiuto formato email non valido, blocco duplicati case-insensitive).
+7. **Rifiuto payload vuoto o senza stato** (richieste `PATCH {}` intercettate con HTTP 400 invece di 500).
+8. **Rifiuto cliente inesistente** (Foreign Key non valida intercettata con HTTP 400 e messaggio in italiano).
+9. **Elenco e filtro pratiche per stato** (`?stato=nuova`, `?stato=in_lavorazione`, `?stato=chiusa`).
+10. **Visualizzazione dettaglio e gestione 404** (su identificativi inesistenti).
+11. **Suite clienti** (creazione valida, rifiuto email mancante, rifiuto formato email non valido, blocco duplicati case-insensitive).
 
 ---
 
@@ -280,7 +281,7 @@ curl -X GET http://127.0.0.1:8000/api/pratiche/1/
 ---
 
 ### 6. Modifica dello Stato di una Pratica
-- **Endpoint:** `PATCH /api/pratiche/<id>/` (disponibile anche `PATCH /api/pratiche/<id>/stato/`)
+- **Endpoint:** `PATCH /api/pratiche/<id>/`
 - **Presa in carico (`nuova` -> `in_lavorazione`):**
 ```bash
 curl -X PATCH http://127.0.0.1:8000/api/pratiche/1/ \
@@ -353,22 +354,9 @@ In un'ottica di evoluzione a prodotto enterprise, i passi naturali successivi co
 3. **Audit Log delle transizioni:** tabella storica per tracciare chi, quando e con quale motivazione ha modificato lo stato di ciascuna pratica.
 4. **Filtri avanzati:** filtro per data di apertura (`creata_il__gte`, `creata_il__lte`) e per range di debito.
 
----
-
-## Tempo Dedicato alla Prova
-
-- **Studio requisiti e progettazione architettura:** ~1 ora
-- **Sviluppo scheletro, modelli, serializer e API:** ~2.5 ore
-- **Containerizzazione Docker & configurazione MySQL:** ~1 ora
-- **Scrittura test suite completa e verifica edge-case:** ~1.5 ore
-- **Raffinamento documentazione e README:** ~1 ora
-- **Tempo complessivo:** ~7 ore.
-
----
-
 ## Dichiarazione Strumenti AI
 
-Come indicato al punto 7 della traccia di selezione (*"Nel README indica brevemente gli strumenti utilizzati e per quali attività"*), si dichiara che durante lo sviluppo sono stati utilizzati coding assistants AI (in particolare **Claude / Codex / Gemini** via agentic workflow):
+Come indicato al punto 7 della traccia di selezione (*"Nel README indica brevemente gli strumenti utilizzati e per quali attività"*), si dichiara che durante lo sviluppo sono stati utilizzati coding assistants AI (in particolare **Codex / Gemini 3.8 Flash** via agentic workflow):
 - **Attività svolte con supporto AI:**
   - Definizione rapida dello scheletro iniziale dei modelli Django e della configurazione Docker Compose;
   - Generazione mirata dei casi di test automatici a copertura degli scenari limite (edge-case sulla macchina a stati);
