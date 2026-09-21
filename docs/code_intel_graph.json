@@ -1,0 +1,197 @@
+{
+  "generator": "mcp:code-intel (mcp-context-graph)",
+  "project_path": "/home/matteo/Progetti/prova-debitoo",
+  "scanned_at": "2026-09-21T16:07:20+02:00",
+  "stats": {
+    "files_discovered": 40,
+    "files_processed": 28,
+    "files_skipped": 12,
+    "files_failed": 0,
+    "nodes_created": 156,
+    "edges_created": 186,
+    "calls_resolved": 22,
+    "calls_unresolved": 287,
+    "imports_resolved": 15
+  },
+  "graph_summary": {
+    "total_nodes": 156,
+    "total_edges": 186
+  },
+  "context_footprint": {
+    "raw_source_bytes": 50557,
+    "graph_view_bytes": 5757,
+    "reduction_ratio": 8.8
+  },
+  "top_definitions": [
+    {
+      "name": "create",
+      "file": "pratiche/serializers.py",
+      "line": 97,
+      "callers": 13
+    },
+    {
+      "name": "PraticaReadSerializer",
+      "file": "pratiche/serializers.py",
+      "line": 10,
+      "callers": 2
+    },
+    {
+      "name": "CustomerSerializer",
+      "file": "customers/serializers.py",
+      "line": 6,
+      "callers": 1
+    },
+    {
+      "name": "main",
+      "file": "manage.py",
+      "line": 6,
+      "callers": 1
+    },
+    {
+      "name": "clean",
+      "file": "pratiche/models.py",
+      "line": 105,
+      "callers": 1
+    },
+    {
+      "name": "puo_transitare_a",
+      "file": "pratiche/models.py",
+      "line": 115,
+      "callers": 1
+    },
+    {
+      "name": "valida_transizione",
+      "file": "pratiche/models.py",
+      "line": 122,
+      "callers": 1
+    },
+    {
+      "name": "get_object",
+      "file": "pratiche/views.py",
+      "line": 73,
+      "callers": 1
+    }
+  ],
+  "files_outline": {
+    "manage.py": [
+      {
+        "type": "function",
+        "name": "main",
+        "line": 6,
+        "signature": "def main(): ..."
+      }
+    ],
+    "config/exceptions.py": [
+      {
+        "type": "function",
+        "name": "italian_exception_handler",
+        "line": 7,
+        "signature": "def italian_exception_handler(exc, context): ..."
+      }
+    ],
+    "customers/models.py": [
+      {
+        "type": "class",
+        "name": "Customer",
+        "line": 4,
+        "signature": "class Customer(models.Model): ..."
+      },
+      {
+        "type": "class",
+        "name": "Meta",
+        "line": 28,
+        "signature": "class Meta: ..."
+      }
+    ],
+    "customers/serializers.py": [
+      {
+        "type": "class",
+        "name": "CustomerSerializer",
+        "line": 6,
+        "signature": "class CustomerSerializer(serializers.ModelSerializer): ..."
+      },
+      {
+        "type": "class",
+        "name": "Meta",
+        "line": 25,
+        "signature": "class Meta: ..."
+      }
+    ],
+    "customers/views.py": [
+      {
+        "type": "class",
+        "name": "CustomerCreateView",
+        "line": 7,
+        "signature": "class CustomerCreateView(CreateAPIView): ..."
+      }
+    ],
+    "pratiche/models.py": [
+      {
+        "type": "class",
+        "name": "StatoPratica",
+        "line": 8,
+        "signature": "class StatoPratica(models.TextChoices): ..."
+      },
+      {
+        "type": "class",
+        "name": "Pratica",
+        "line": 21,
+        "signature": "class Pratica(models.Model): ..."
+      },
+      {
+        "type": "class",
+        "name": "Meta",
+        "line": 94,
+        "signature": "class Meta: ..."
+      }
+    ],
+    "pratiche/serializers.py": [
+      {
+        "type": "class",
+        "name": "PraticaReadSerializer",
+        "line": 10,
+        "signature": "class PraticaReadSerializer(serializers.ModelSerializer): ..."
+      },
+      {
+        "type": "class",
+        "name": "Meta",
+        "line": 21,
+        "signature": "class Meta: ..."
+      },
+      {
+        "type": "class",
+        "name": "PraticaCreateSerializer",
+        "line": 36,
+        "signature": "class PraticaCreateSerializer(serializers.ModelSerializer): ..."
+      },
+      {
+        "type": "class",
+        "name": "PraticaStatoUpdateSerializer",
+        "line": 112,
+        "signature": "class PraticaStatoUpdateSerializer(serializers.ModelSerializer): ..."
+      }
+    ],
+    "pratiche/views.py": [
+      {
+        "type": "class",
+        "name": "PraticaListCreateView",
+        "line": 15,
+        "signature": "class PraticaListCreateView(ListCreateAPIView): ..."
+      },
+      {
+        "type": "class",
+        "name": "PraticaDetailView",
+        "line": 62,
+        "signature": "class PraticaDetailView(RetrieveUpdateAPIView): ..."
+      }
+    ],
+    "pratiche/management/commands/seed_data.py": [
+      {
+        "type": "class",
+        "name": "Command",
+        "line": 17,
+        "signature": "class Command(BaseCommand): ..."
+      }
+    ]
+  }
+}
