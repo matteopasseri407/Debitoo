@@ -13,7 +13,7 @@ NeXgen Engine raccoglie strumenti e regole che mi sono costruito per rendere rip
 
 | Strumento | Uso in questa prova |
 |---|---|
-| Antigravity IDE con Gemini 3.8 Flash per la stesura |
+| Antigravity IDE con Gemini 3.8 Flash | Implementazione 
 | Codex con GPT-5.6 Sol | Revisione dei casi limite e controllo finale. |
 | AI Council | Stress test del piano con revisori indipendenti eseguiti tramite le rispettive CLI. |
 | `code-intel` | Analisi AST, mappa dei simboli e ricerca dei chiamanti. |
