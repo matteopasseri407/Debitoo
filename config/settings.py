@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "rest_framework",
+    "drf_spectacular",
     "customers",
     "pratiche",
 ]
@@ -28,8 +29,19 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
-TEMPLATES = []
 WSGI_APPLICATION = "config.wsgi.application"
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+            ],
+        },
+    },
+]
 
 DATABASES = {
     "default": {
@@ -55,4 +67,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "UNAUTHENTICATED_USER": None,
     "EXCEPTION_HANDLER": "config.exceptions.italian_exception_handler",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Debitoo Group - API Gestione Crediti",
+    "DESCRIPTION": "Documentazione OpenAPI 3.0 e collaudo interattivo per la gestione di clienti e pratiche di recupero crediti.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
 }
