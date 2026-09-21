@@ -1,6 +1,6 @@
 {
   "generator": "mcp:code-intel (mcp-context-graph)",
-  "project_path": "/home/matteo/Progetti/prova-debitoo",
+  "project_path": ".",
   "scanned_at": "2026-09-21T16:07:20+02:00",
   "stats": {
     "files_discovered": 40,

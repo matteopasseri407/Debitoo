@@ -129,7 +129,7 @@ La scansione dei file sorgente ha registrato le seguenti definizioni formali:
 
 ---
 
-## 5. La Metafora dei Tre Componenti (Spiegazione Umana per Matteo)
+## 5. La Metafora dei Tre Componenti (Spiegazione Concreta)
 
 Per orientarsi senza dover ricordare a memoria la sintassi Python:
 
@@ -158,8 +158,8 @@ L'analizzatore fa parte dell'infrastruttura NeXgen Engine ed è invocabile da qu
 ```bash
 # Esempio di interrogazione via protocollo MCP:
 # 1. repo_map: restituisce il riassunto dell'AST e le top definitions
-call_tool lazy-mcp lazy_call { server: "code-intel", tool: "repo_map", arguments: { repo: "/home/matteo/Progetti/prova-debitoo" } }
+call_tool lazy-mcp lazy_call { server: "code-intel", tool: "repo_map", arguments: { repo: "/percorso/assoluto/prova-debitoo" } }
 
 # 2. find_callers: mostra chi usa una funzione prima di modificarla
-call_tool lazy-mcp lazy_call { server: "code-intel", tool: "find_callers", arguments: { repo: "/home/matteo/Progetti/prova-debitoo", name: "valida_transizione" } }
+call_tool lazy-mcp lazy_call { server: "code-intel", tool: "find_callers", arguments: { repo: "/percorso/assoluto/prova-debitoo", name: "valida_transizione" } }
 ```

@@ -1,8 +1,6 @@
 from django.http import Http404
-from rest_framework import status
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
-from rest_framework.response import Response
 
 from pratiche.models import Pratica, StatoPratica
 from pratiche.serializers import (
@@ -64,7 +62,6 @@ class PraticaDetailView(RetrieveUpdateAPIView):
     Endpoint per:
     1. GET   /api/pratiche/<id>/ -> Visualizzazione dettagliata di una singola pratica
     2. PATCH /api/pratiche/<id>/ -> Modifica controllata dello stato della pratica
-    3. PUT   /api/pratiche/<id>/ -> Modifica controllata dello stato della pratica
     """
 
     queryset = Pratica.objects.select_related("cliente").all()

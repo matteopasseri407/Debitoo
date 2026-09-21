@@ -21,7 +21,8 @@ Il sistema consente agli operatori di registrare clienti e gestire le relative p
 7. [Specifiche e Esempi Chiamate API (cURL)](#specifiche-e-esempi-chiamate-api-curl)
 8. [Gestione degli Errori in Italiano](#gestione-degli-errori-in-italiano)
 9. [Miglioramenti Futuri](#miglioramenti-futuri)
-10. [Dichiarazione Strumenti AI](#dichiarazione-strumenti-ai)
+10. [Tempo Dedicato](#tempo-dedicato)
+11. [Dichiarazione Strumenti AI](#dichiarazione-strumenti-ai)
 
 ---
 
@@ -31,12 +32,12 @@ Il progetto è progettato per essere eseguito interamente in container isolati, 
 
 - **Docker Engine:** versione >= 24.0
 - **Docker Compose:** versione v2
-- **Python:** 3.12 (immagine `python:3.12-slim`)
-- **Django:** 5.2 LTS
-- **Django REST Framework (DRF):** 3.18
-- **MySQL:** 8.4 LTS
-- **PyMySQL:** 1.2
-- **uv:** 0.12 (gestore veloce di dipendenze e lockfile)
+- **Python:** 3.12.14 (immagine `python:3.12-slim`)
+- **Django:** 5.2.17 LTS
+- **Django REST Framework (DRF):** 3.18.1
+- **MySQL:** 8.4.11 LTS
+- **PyMySQL:** 1.2.3
+- **uv:** 0.12.10 (gestore di dipendenze e lockfile)
 
 ---
 
@@ -179,7 +180,7 @@ curl -X POST http://127.0.0.1:8000/api/customers/ \
 ---
 
 ### 2. Creazione di una Pratica
-- **Endpoint:** `POST /api/pratiche/` (disponibile anche alias `POST /api/cases/`)
+- **Endpoint:** `POST /api/pratiche/`
 - **Request:**
 ```bash
 curl -X POST http://127.0.0.1:8000/api/pratiche/ \
@@ -303,7 +304,7 @@ curl -X PATCH http://127.0.0.1:8000/api/pratiche/1/ \
 
 ## Gestione degli Errori in Italiano
 
-Tutti gli errori restituiscono codici HTTP appropriati e payload JSON leggibili:
+Gli errori di dominio e di validazione previsti dalla traccia restituiscono codici HTTP appropriati e payload JSON leggibili:
 
 ### 1. Dati obbligatori mancanti o importo errato (400 Bad Request)
 ```json
@@ -357,11 +358,23 @@ In un'ottica di evoluzione a prodotto enterprise, i passi naturali successivi co
 3. **Audit Log delle transizioni:** tabella storica per tracciare chi, quando e con quale motivazione ha modificato lo stato di ciascuna pratica.
 4. **Filtri avanzati:** filtro per data di apertura (`creata_il__gte`, `creata_il__lte`) e per range di debito.
 
+## Tempo Dedicato
+
+La prima versione completa ha richiesto circa un'ora e mezza di lavoro effettivo tra analisi della traccia, implementazione assistita, test, revisione e documentazione.
+Lo studio del progetto continua in preparazione alla presentazione tecnica.
+
 ## Dichiarazione Strumenti AI
 
-Come indicato al punto 7 della traccia di selezione (*"Nel README indica brevemente gli strumenti utilizzati e per quali attività"*), si dichiara che durante lo sviluppo sono stati utilizzati coding assistants AI (in particolare **Codex / Gemini 3.8 Flash** via agentic workflow):
-- **Attività svolte con supporto AI:**
-  - Definizione rapida dello scheletro iniziale dei modelli Django e della configurazione Docker Compose;
-  - Generazione mirata dei casi di test automatici a copertura degli scenari limite (edge-case sulla macchina a stati);
-  - Assistenza nella redazione dei messaggi di errore localizzati e della documentazione tecnica.
-- **Validazione:** Tutto il codice, le regole di business, le migrazioni del database e la suite di test sono stati verificati e testati manualmente all'interno dei container Docker su MySQL 8.4.
+Durante lo sviluppo ho usato **Codex** e **Gemini 3.8 Flash** come assistenti di analisi, pair programming e studio.
+Anche le logiche di business e le scelte implementative sono state discusse con il supporto dell'AI, non soltanto la documentazione finale.
+
+Il supporto AI ha riguardato:
+
+- analisi dei requisiti e modellazione della macchina a stati;
+- impostazione dei modelli Django, dei serializer e dell'ambiente Docker Compose;
+- scrittura e revisione dei test, compresi i casi limite;
+- revisione del codice, messaggi di errore e documentazione tecnica.
+
+Questa prova è anche un percorso di studio.
+Sto ripercorrendo il repository file per file, dal routing HTTP fino all'ORM e a MySQL, per comprendere, spiegare e manutenere ogni parte del progetto.
+Il comportamento è stato verificato eseguendo l'intera suite di 19 test nei container Docker su MySQL 8.4.
