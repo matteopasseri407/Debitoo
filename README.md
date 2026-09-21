@@ -4,6 +4,10 @@ API REST sviluppata in **Python** con **Django** e **Django REST Framework (DRF)
 
 Il sistema consente agli operatori di registrare clienti e gestire le relative pratiche debitorie, garantendo l'integrità dei dati contabili e imponendo una macchina a stati rigorosa a senso unico per il ciclo di vita delle posizioni debitorie.
 
+> Per una consultazione rapida della struttura del codice e del flusso delle richieste:
+> - **[Mappa Visuale e Concettuale del Progetto](MAPPA_PROGETTO.md)**: diagrammi di sequenza, metafora dei componenti Django e albero dei file.
+> - **[Metodo di Sviluppo Assistito da AI](METODO_DI_SVILUPPO_AI.md)**: approfondimento sui principi di ingegneria adottati (fette verticali, regola Ponytail, scansione AST via MCP e revisione multi-modello).
+
 ---
 
 ## Indice
@@ -17,8 +21,7 @@ Il sistema consente agli operatori di registrare clienti e gestire le relative p
 7. [Specifiche e Esempi Chiamate API (cURL)](#specifiche-e-esempi-chiamate-api-curl)
 8. [Gestione degli Errori in Italiano](#gestione-degli-errori-in-italiano)
 9. [Miglioramenti Futuri](#miglioramenti-futuri)
-10. [Tempo Dedicato alla Prova](#tempo-dedicato-alla-prova)
-11. [Dichiarazione Strumenti AI](#dichiarazione-strumenti-ai)
+10. [Dichiarazione Strumenti AI](#dichiarazione-strumenti-ai)
 
 ---
 
