@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-local-development-only")
-DEBUG = os.getenv("DJANGO_DEBUG", "true").lower() == "true"
+DEBUG = os.getenv("DJANGO_DEBUG", "false").lower() == "true"
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.getenv(
@@ -51,6 +51,8 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": ["rest_framework.renderers.JSONRenderer"],
+    "DEFAULT_PARSER_CLASSES": ["rest_framework.parsers.JSONParser"],
     "DEFAULT_AUTHENTICATION_CLASSES": [],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "UNAUTHENTICATED_USER": None,

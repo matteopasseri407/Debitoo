@@ -48,6 +48,7 @@ class PraticaCreateSerializer(serializers.ModelSerializer):
     # In caso contrario, solleva un errore 400 Bad Request con messaggio esplicativo.
     cliente = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(),
+        pk_field=serializers.IntegerField(min_value=1),
         error_messages={
             "does_not_exist": "Il cliente specificato non esiste.",
             "incorrect_type": "L'identificativo del cliente deve essere un numero intero.",

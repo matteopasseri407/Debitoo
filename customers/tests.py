@@ -101,3 +101,12 @@ class CustomerCreateApiTests(APITestCase):
             response.data["email"][0],
             "Inserisci un indirizzo email valido.",
         )
+
+    def test_rejects_email_longer_than_database_column(self):
+        email = "a" * 64 + "@" + ".".join(["b" * 63] * 3) + ".com"
+        response = self.client.post(self.url, {
+            "first_name": "Mario", "last_name": "Rossi", "email": email,
+        }, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("email", response.data)
+        self.assertEqual(Customer.objects.count(), 0)

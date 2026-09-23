@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.http import Http404
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
@@ -66,6 +67,17 @@ class PraticaDetailView(RetrieveUpdateAPIView):
 
     queryset = Pratica.objects.select_related("cliente").all()
     http_method_names = ["get", "patch", "head", "options"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.method == "PATCH":
+            return queryset.select_for_update()
+        return queryset
+
+    @transaction.atomic
+    def update(self, request, *args, **kwargs):
+        # Keep the row locked from its first read through validation and save.
+        return super().update(request, *args, **kwargs)
 
     def get_object(self):
         """

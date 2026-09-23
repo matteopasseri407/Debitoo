@@ -22,6 +22,39 @@ class PraticheApiTests(APITestCase):
         )
         self.list_create_url = reverse("pratica-list-create")
 
+    def test_cliente_frazionario_rifiutato_senza_creare_pratica(self):
+        response = self.client.post(self.list_create_url, {
+            "cliente": self.cliente.id + 0.9,
+            "descrizione": "Identificativo non intero", "importo": "10.00",
+        }, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Pratica.objects.count(), 0)
+
+    def test_browser_riceve_json_senza_template_html(self):
+        response = self.client.get(self.list_create_url,
+            HTTP_ACCEPT="text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response["Content-Type"], "application/json")
+
+    def test_stato_e_timestamp_automatici_non_sovrascrivibili(self):
+        response = self.client.post(self.list_create_url, {
+            "cliente": self.cliente.id, "descrizione": "Campi automatici",
+            "importo": "10.00", "stato": "chiusa", "id": 999999,
+            "creata_il": "2000-01-01T00:00:00Z",
+        }, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["stato"], "nuova")
+        self.assertNotEqual(response.data["id"], 999999)
+        self.assertFalse(response.data["creata_il"].startswith("2000-"))
+
+    def test_importo_con_tre_decimali_rifiutato(self):
+        response = self.client.post(self.list_create_url, {
+            "cliente": self.cliente.id, "descrizione": "Precisione",
+            "importo": "10.001",
+        }, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Pratica.objects.count(), 0)
+
     # =========================================================================
     # REQUISITO OBBLIGATORIO 1: Creazione corretta di una pratica
     # =========================================================================
@@ -235,11 +268,13 @@ class PraticheApiTests(APITestCase):
         )
         url = reverse("pratica-detail", kwargs={"pk": pratica.id})
 
+        timestamp_originale = pratica.aggiornata_il
         response = self.client.patch(url, {"stato": "in_lavorazione"}, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         pratica.refresh_from_db()
         self.assertEqual(pratica.stato, StatoPratica.IN_LAVORAZIONE)
+        self.assertEqual(pratica.aggiornata_il, timestamp_originale)
 
     def test_rifiuto_stato_non_esistente(self):
         """
