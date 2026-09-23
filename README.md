@@ -12,13 +12,13 @@ Documentazione collegata:
 
 ```bash
 cp .env.example .env
-docker compose up --build -d
+docker compose up --build --wait
 docker compose run --rm api python manage.py seed_data
 docker compose run --rm api python manage.py test
 ```
 
 Il container `api` applica le migrazioni prima di ogni comando.
-La suite contiene 19 test e usa MySQL.
+La suite contiene 26 test e usa MySQL.
 L'API risponde su `http://127.0.0.1:8000`.
 
 Per fermare i servizi:
@@ -146,7 +146,9 @@ Per cancellare i dati locali e ricaricare il seed:
 docker compose run --rm api python manage.py seed_data --reset
 ```
 
-I 19 test coprono clienti, email, creazione delle pratiche, importi non validi, cliente inesistente, transizioni, idempotenza, `PATCH` incompleti, elenco, filtri, dettaglio e 404.
+I 26 test coprono clienti, email, creazione delle pratiche, importi non validi, cliente inesistente, transizioni, idempotenza, `PATCH` incompleti, elenco, filtri, dettaglio e 404.
+Le regressioni includono email troppo lunghe, identificativi frazionari, precisione monetaria, campi automatici, richieste da browser e richieste concorrenti su MySQL.
+L'aggiornamento dello stato blocca la riga in una transazione fino al salvataggio.
 
 ## Perimetro
 

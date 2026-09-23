@@ -1,3 +1,4 @@
+from django.db import IntegrityError, transaction
 from rest_framework import serializers
 
 from customers.models import Customer
@@ -14,7 +15,10 @@ class CustomerSerializer(serializers.ModelSerializer):
     4. Controllo esplicito di unicità case-insensitive prima del salvataggio nel database.
     """
 
+    duplicate_email_message = "Esiste già un cliente con questa email."
+
     email = serializers.EmailField(
+        max_length=Customer._meta.get_field("email").max_length,
         error_messages={
             "blank": "L'email è obbligatoria.",
             "invalid": "Inserisci un indirizzo email valido.",
@@ -51,7 +55,19 @@ class CustomerSerializer(serializers.ModelSerializer):
         # Query di controllo su MySQL con predicato iexact (case-insensitive)
         if Customer.objects.filter(email__iexact=normalized_email).exists():
             raise serializers.ValidationError(
-                "Esiste già un cliente con questa email."
+                self.duplicate_email_message
             )
 
         return normalized_email
+
+    def create(self, validated_data):
+        try:
+            with transaction.atomic():
+                return super().create(validated_data)
+        except IntegrityError as exc:
+            # MySQL 1062: another request may insert the email after validation.
+            if exc.args[0] != 1062:
+                raise
+            raise serializers.ValidationError(
+                {"email": [self.duplicate_email_message]}
+            ) from exc

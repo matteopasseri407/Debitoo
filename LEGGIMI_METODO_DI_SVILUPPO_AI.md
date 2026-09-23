@@ -38,7 +38,7 @@ NeXgen Engine raccoglie strumenti e regole che mi sono costruito per rendere rip
 
 La review ha individuato il caso `PATCH {}`, che ora restituisce `400 Bad Request` un bug che era sfuggito a una prima stesura del modello flash.
 Ha portato anche al `CheckConstraint` sull'importo, così il vincolo esiste nel serializer e nel database.
-La suite finale contiene 19 test.
+La suite finale contiene 26 test.
 
 La [mappa della codebase](MAPPA_PROGETTO.md) e il relativo [export AST](docs/code_intel_graph.json) documentano l'analisi svolta con `code-intel`.
 
